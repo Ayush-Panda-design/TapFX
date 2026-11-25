@@ -1,26 +1,123 @@
 @import "tailwindcss";
 
+/* Design tokens: every colour in the UI comes from here, so rebranding is a one-file change. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafaf9;
+  --foreground: #1c1917;
+  --card: #ffffff;
+  --muted: #f3f2f0;
+  --muted-foreground: #6b6560;
+  --border: #e7e5e2;
+  --primary: #5b3df5;
+  --primary-hover: #4a2ee0;
+  --primary-foreground: #ffffff;
+  --primary-soft: #efecff;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --success: #16a34a;
+  --success-soft: #f0fdf4;
+  --ring: #5b3df5;
 }
+
+/* Theme: follows the OS unless the user picked one (html[data-theme] is set by the toggle / boot script). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #0c0b0a;
+    --foreground: #f5f4f2;
+    --card: #161412;
+    --muted: #1f1c1a;
+    --muted-foreground: #a8a29c;
+    --border: #2b2724;
+    --primary: #8b74ff;
+    --primary-hover: #a08cff;
+    --primary-foreground: #0c0b0a;
+    --primary-soft: #231d45;
+    --danger: #f87171;
+    --danger-soft: #2a1414;
+    --success: #4ade80;
+    --success-soft: #11230f;
+    --ring: #8b74ff;
+    color-scheme: dark;
+  }
+  :root:not([data-theme="light"]) .theme-sun { display: inline; }
+  :root:not([data-theme="light"]) .theme-moon { display: none; }
+}
+
+:root[data-theme="dark"] {
+  --background: #0c0b0a;
+  --foreground: #f5f4f2;
+  --card: #161412;
+  --muted: #1f1c1a;
+  --muted-foreground: #a8a29c;
+  --border: #2b2724;
+  --primary: #8b74ff;
+  --primary-hover: #a08cff;
+  --primary-foreground: #0c0b0a;
+  --primary-soft: #231d45;
+  --danger: #f87171;
+  --danger-soft: #2a1414;
+  --success: #4ade80;
+  --success-soft: #11230f;
+  --ring: #8b74ff;
+  color-scheme: dark;
+}
+
+/* The toggle shows the theme you would switch TO: a moon in light mode, a sun in dark mode. */
+.theme-sun { display: none; }
+.theme-moon { display: inline; }
+:root[data-theme="dark"] .theme-sun { display: inline; }
+:root[data-theme="dark"] .theme-moon { display: none; }
+:root[data-theme="light"] .theme-sun { display: none; }
+:root[data-theme="light"] .theme-moon { display: inline; }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --radius-card: 1rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* The QR preview must stay crisp and square at any size. */
+.qr-frame svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
